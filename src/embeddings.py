@@ -3,11 +3,10 @@ Generate embeddings and store them in ChromaDB vector store.
 """
 
 import chromadb
-from chromadb.config import Settings
 import os
 
 
-def create_vector_store(chunks: list[dict], persist_dir: str = './chroma_db') -> chromadb.Collection:
+def create_vector_store(chunks: list[dict], persist_dir: str = './chroma_db'):
     """
     Create a ChromaDB vector store and add chunks.
     
@@ -48,7 +47,7 @@ def create_vector_store(chunks: list[dict], persist_dir: str = './chroma_db') ->
     return collection
 
 
-def load_vector_store(persist_dir: str = './chroma_db') -> chromadb.Collection:
+def load_vector_store(persist_dir: str = './chroma_db'):
     """
     Load an existing ChromaDB vector store.
     
