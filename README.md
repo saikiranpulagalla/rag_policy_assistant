@@ -10,7 +10,18 @@ pip install -r requirements.txt
 ```
 
 ### 2. Configure API Key
+
+**Local Development:**
 Edit `.env`:
+```
+GEMINI_API_KEY=your-gemini-api-key-here
+MODEL=gemini-2.5-flash
+```
+
+**Streamlit Cloud:**
+1. Go to your app settings
+2. Click "Secrets" 
+3. Add your API key:
 ```
 GEMINI_API_KEY=your-gemini-api-key-here
 MODEL=gemini-2.5-flash

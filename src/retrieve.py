@@ -2,11 +2,9 @@
 Retrieve relevant chunks from the vector store using semantic search.
 """
 
-import chromadb
-
 
 def retrieve_context(
-    collection: chromadb.Collection,
+    collection,
     query: str,
     top_k: int = 3,
     similarity_threshold: float = 0.3
