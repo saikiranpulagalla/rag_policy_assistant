@@ -66,11 +66,29 @@ def initialize_rag_system():
 
 def check_api_key():
     """Check if Gemini API key is set."""
-    api_key = os.getenv("GEMINI_API_KEY")
+    # Try Streamlit secrets first (for Streamlit Cloud), then environment variables (for local)
+    api_key = None
+    
+    # Check Streamlit secrets
+    if hasattr(st, 'secrets') and 'GEMINI_API_KEY' in st.secrets:
+        api_key = st.secrets['GEMINI_API_KEY']
+        # Set as environment variable so other modules can access it
+        os.environ['GEMINI_API_KEY'] = api_key
+    else:
+        # Fall back to environment variable
+        api_key = os.getenv("GEMINI_API_KEY")
+    
     if not api_key:
         st.error("❌ GEMINI_API_KEY not set!")
         st.info("""
         Please set your Gemini API key:
+        
+        **For Streamlit Cloud:**
+        1. Go to app settings → Secrets
+        2. Add: `GEMINI_API_KEY = "your-key-here"`
+        3. Reboot the app
+        
+        **For Local Development:**
         1. Get key from: https://aistudio.google.com/app/apikeys
         2. Add to .env file: GEMINI_API_KEY=your-key-here
         3. Restart the app
