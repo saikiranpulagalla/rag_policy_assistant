@@ -70,13 +70,17 @@ def check_api_key():
     api_key = None
     
     # Check Streamlit secrets
-    if hasattr(st, 'secrets') and 'GEMINI_API_KEY' in st.secrets:
-        api_key = st.secrets['GEMINI_API_KEY']
-        # Set as environment variable so other modules can access it
-        os.environ['GEMINI_API_KEY'] = api_key
-    else:
+    try:
+        if 'GEMINI_API_KEY' in st.secrets:
+            api_key = st.secrets['GEMINI_API_KEY']
+            # Set as environment variable so other modules can access it
+            os.environ['GEMINI_API_KEY'] = api_key
+            st.success("✅ API key loaded from Streamlit secrets")
+    except Exception as e:
         # Fall back to environment variable
         api_key = os.getenv("GEMINI_API_KEY")
+        if api_key:
+            st.info("ℹ️ API key loaded from environment variable")
     
     if not api_key:
         st.error("❌ GEMINI_API_KEY not set!")
@@ -85,8 +89,12 @@ def check_api_key():
         
         **For Streamlit Cloud:**
         1. Go to app settings → Secrets
-        2. Add: `GEMINI_API_KEY = "your-key-here"`
-        3. Reboot the app
+        2. Add exactly this (with your actual key):
+        ```
+        GEMINI_API_KEY = "AIzaSy..."
+        ```
+        3. Click Save
+        4. Reboot the app
         
         **For Local Development:**
         1. Get key from: https://aistudio.google.com/app/apikeys
